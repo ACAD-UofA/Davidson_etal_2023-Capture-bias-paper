@@ -5,7 +5,8 @@ ml SAMtools/1.8
 
 map=$PATH/mapping_resources
 
-## dbSNP 138 
+### GENOTYPE
+## pseudo haploid genotype dbSNP 138 
 samtools mpileup -R -B -q30 -Q30 --positions ${map}/dbsnp_138.b37/dbsnp_138.b37.pos \
         --fasta-ref ${map}/GRCh37/human_g1k_v37_decoy.fasta \
         --bam-list bamlist.txt | pileupCaller --sampleNameFile newSamplelist.txt \
@@ -16,7 +17,8 @@ samtools mpileup -R -B -q30 -Q30 --positions ${map}/dbsnp_138.b37/dbsnp_138.b37.
 
 rename ".txt" "" AP_53M*
 
-#filter out prime plus sites
+### OFF TARGET
+#filter out prime plus sites for off-target
 ml plink/1.90beta-4.4-21-May
 plink --bfile AP_53M \
 	--keep-allele-order \
@@ -25,5 +27,14 @@ plink --bfile AP_53M \
 	--geno 0.9999999 \
 	--exclude PrimePlus_1240k_Y46k_sorted.sites \
 	--make-bed --out AP_53M_OffTargetOnly
+rm AP_53M.nosex
 
-rm *nosex
+### OUT OF RANGE
+# Out of range genotype filter
+in1=$1
+
+#find SNPs in 100bp range of target site
+awk '{print $2,$4-100,$4+100,$1}' ${map}/PrimePlus_1240k_Y46k_sorted.snp > PP.100bp.set
+
+#extract/exclude with --set
+plink --bfile AP_53M --exclude range PP.100bp.set --keep-allele-order --allow-no-sex --make-bed --out AP_53M_OTrange
