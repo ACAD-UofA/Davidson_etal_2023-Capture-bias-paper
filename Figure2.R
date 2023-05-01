@@ -429,4 +429,4 @@ patch <- (patchA/patchC/region) + plot_layout(heights = c(9,9,1.5)) | (patchB/pa
 patch <- patch +
   plot_annotation(tag_levels = list(c('A','','','','C','','','','','B','','','','D'))) 
 patch
-ggsave("AP_EUSA_megaPCA.pdf", width = 14, height = 15, dpi =300)
+ggsave("Fig2.pdf", width = 14, height = 15, dpi =300)
