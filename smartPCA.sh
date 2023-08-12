@@ -5,7 +5,8 @@ in2=poplist.txt
 
 ## NB: Use "outliermode" when calculating PCA from missingness. 
 ## Use "poplistname" when projecting
-
+## EIGENSOFT = 
+## smartPCA version 
 
 smartpca -p <(echo "genotypename:	${in1}.geno
 snpname:	${in1}.snp
@@ -14,7 +15,7 @@ evecoutname:	${in1}.pca.evec.txt
 evaloutname:	${in1}.pca.eval.txt
 poplistname:	${in2}
 #missingmode:	YES
-lsproject:	YES
+lsqproject:	YES
 outliermode:	2
 outlieroutname:	${in1}.pca.outlier.txt
 snpweightoutname:	${in1}.pca.snpweight.txt
