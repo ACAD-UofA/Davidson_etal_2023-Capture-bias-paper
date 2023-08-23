@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DATA=$1
-
+#Plink 1.9
 ml plink
 
 #Prepare dataset
