@@ -8,19 +8,15 @@ lbl = select(lbl, AP_label, Type) %>%
   mutate(f3group = paste(AP_label,Type, sep="_"))
 
 #join labels
-f3dat <- inner_join(f3dat,lbl, by=c("PopB"="f3group")) %>% unique()
+f3dat <- inner_join(f3dat,lbl, by=c("PopB"="f3group"), relationship = "many-to-many") %>% 
+  unique() 
 
-f3dat$Populations <- factor(f3dat$AP_label, levels = c("Spain", "Portugal","Gibraltar","Argentina_Pampas",
-                         "Argentina_Patagonia", "Bolivia","Brazil",            
-                         "CentralChile" , "Chile_Patagonia","NorthArgentina",  
-                         "NorthChile","Peru"))
+f3dat$Populations <- factor(f3dat$AP_label, levels = c("Spain","Argentina_Pampas",
+                                                       "Argentina_Patagonia", "Bolivia","Brazil",            
+                                                       "CentralChile" , "Chile_Patagonia",  
+                                                       "NorthChile","Peru"))
 
-labels <- c("Spain","Portugal","Gibraltar","Pampas","South Argentina", "Bolivia","Brazil",
-            "Central Chile","South Chile","North Argentina","North Chile","Peru")
-
-#Subset data to plot regarding pop or ind of interest
-f3dat <- filter(f3dat, PopB!="SWAsia_Arbor", PopB!="CentralChile_Shotgun_IGNORE", 
-                PopB!="CentralChile_Shotgun_IGNORE", PopB!="MesoAmerica_Arbor")
+labels <- c("Spain","Pampas","South Argentina", "Bolivia","Brazil", "Central Chile","South Chile","North Chile","Peru")
 
 #set pop order as factor so ggplot won't re-order automatically
 f3dat$Populations <- factor(f3dat$Populations, levels = f3dat$Populations)
